@@ -1,6 +1,8 @@
 import pytest
 import task_1_2
 from collections.abc import MutableMapping
+from typing import List
+
 import sys
 
 sys.path.append("..")
@@ -12,6 +14,7 @@ from common_functions import (
     list_with_str,
     list_of_dicts_with_str,
     dict_with_str_any,
+    dict_with_str_bool_int,
 )
 
 
@@ -41,6 +44,7 @@ def test_send_show_params():
     assert (
         annotations["device_dict"] == dict_with_str
         or annotations["device_dict"] == dict_with_str_any
+        or annotations["device_dict"] == dict_with_str_bool_int
     )
 
 
@@ -62,4 +66,8 @@ def test_send_command_to_devices_params():
     annotations = task_1_2.send_command_to_devices.__annotations__
     assert annotations["command"] == str
     assert annotations["max_workers"] == int
-    assert annotations["devices"] == list_of_dicts_with_str
+    assert (
+        annotations["devices"] == List[dict_with_str]
+        or annotations["devices"] == List[dict_with_str_any]
+        or annotations["devices"] == List[dict_with_str_bool_int]
+    )
